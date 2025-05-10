@@ -1,1 +1,204 @@
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local SoundService = game:GetService("SoundService")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Config
+local keysURL = "----"  ---ใส่คีย
+local scriptURL = "----" ---สคิป
+local keySiteURL = "https://discord.gg/eNP777eBSY"
+local discordInvite = "https://discord.gg/eNP777eBSY"
+
+-- Sounds
+local successSound = Instance.new("Sound", workspace)
+successSound.SoundId = "rbxassetid://12222216"
+successSound.Volume = 1
+
+local errorSound = Instance.new("Sound", workspace)
+errorSound.SoundId = "rbxassetid://95294847550803"
+errorSound.Volume = 1
+
+-- Loading UI
+local loadingGui = Instance.new("ScreenGui", playerGui)
+loadingGui.IgnoreGuiInset = true
+
+local loadingFrame = Instance.new("Frame", loadingGui)
+loadingFrame.Size = UDim2.new(0, 160, 0, 160)
+loadingFrame.Position = UDim2.new(0.5, -80, 0.5, -80)
+loadingFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
+loadingFrame.BackgroundTransparency = 1
+Instance.new("UICorner", loadingFrame).CornerRadius = UDim.new(0, 20)
+
+local logo = Instance.new("ImageLabel", loadingFrame)
+logo.Size = UDim2.new(1, -30, 1, -30)
+logo.Position = UDim2.new(0, 15, 0, 15)
+logo.BackgroundTransparency = 1
+logo.Image = "rbxassetid://123385856500936"
+
+-- โลโก้เด้งขึ้นลงแบบไม่บัค
+RunService.RenderStepped:Connect(function()
+	local newY = math.sin(tick() * 5) * 5 + 15
+	logo.Position = UDim2.new(0, 15, 0, newY)
+end)
+
+TweenService:Create(loadingFrame, TweenInfo.new(0.8), {BackgroundTransparency = 0.05}):Play()
+task.wait(2.5)
+TweenService:Create(loadingFrame, TweenInfo.new(0.5), {BackgroundTransparency = 1}):Play()
+task.wait(0.5)
+loadingGui:Destroy()
+
+-- Key UI
+local keyGui = Instance.new("ScreenGui", playerGui)
+keyGui.Name = "KeySystem"
+
+local mainFrame = Instance.new("Frame", keyGui)
+mainFrame.Size = UDim2.new(0, 400, 0, 250)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -125)
+mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+mainFrame.BackgroundTransparency = 0.1
+Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 15)
+
+local title = Instance.new("TextLabel", mainFrame)
+title.Size = UDim2.new(1, 0, 0, 40)
+title.Text = "🍇 Amy Cross Key 🥑"
+title.TextColor3 = Color3.fromRGB(240, 240, 255)
+title.BackgroundTransparency = 1
+title.Font = Enum.Font.GothamSemibold
+title.TextSize = 22
+
+local keyBox = Instance.new("TextBox", mainFrame)
+keyBox.Size = UDim2.new(0.8, 0, 0, 35)
+keyBox.Position = UDim2.new(0.1, 0, 0.28, 0)
+keyBox.PlaceholderText = "🔑 Enter your access key..."
+keyBox.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+keyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+keyBox.Text = ""
+keyBox.Font = Enum.Font.Gotham
+keyBox.TextSize = 18
+Instance.new("UICorner", keyBox).CornerRadius = UDim.new(0, 8)
+
+local submitBtn = Instance.new("TextButton", mainFrame)
+submitBtn.Size = UDim2.new(0.38, 0, 0, 35)
+submitBtn.Position = UDim2.new(0.1, 0, 0.5, 0)
+submitBtn.Text = "✅ Submit"
+submitBtn.BackgroundColor3 = Color3.fromRGB(0, 180, 120)
+submitBtn.TextColor3 = Color3.new(1, 1, 1)
+submitBtn.Font = Enum.Font.GothamBold
+submitBtn.TextSize = 17
+Instance.new("UICorner", submitBtn).CornerRadius = UDim.new(0, 8)
+
+local getKeyBtn = Instance.new("TextButton", mainFrame)
+getKeyBtn.Size = UDim2.new(0.38, 0, 0, 35)
+getKeyBtn.Position = UDim2.new(0.52, 0, 0.5, 0)
+getKeyBtn.Text = "🔗 Get Key"
+getKeyBtn.BackgroundColor3 = Color3.fromRGB(80, 130, 255)
+getKeyBtn.TextColor3 = Color3.new(1, 1, 1)
+getKeyBtn.Font = Enum.Font.GothamBold
+getKeyBtn.TextSize = 17
+Instance.new("UICorner", getKeyBtn).CornerRadius = UDim.new(0, 8)
+
+local discordBtn = Instance.new("TextButton", mainFrame)
+discordBtn.Size = UDim2.new(0.8, 0, 0, 35)
+discordBtn.Position = UDim2.new(0.1, 0, 0.7, 0)
+discordBtn.Text = "💬 Join Discord"
+discordBtn.BackgroundColor3 = Color3.fromRGB(114, 137, 218)
+discordBtn.TextColor3 = Color3.new(1, 1, 1)
+discordBtn.Font = Enum.Font.GothamBold
+discordBtn.TextSize = 17
+Instance.new("UICorner", discordBtn).CornerRadius = UDim.new(0, 8)
+
+local closeBtn = Instance.new("TextButton", mainFrame)
+closeBtn.Size = UDim2.new(0, 28, 0, 28)
+closeBtn.Position = UDim2.new(1, -38, 0, 10)
+closeBtn.Text = "✖"
+closeBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+closeBtn.TextColor3 = Color3.new(1, 1, 1)
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 16
+Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(0, 6)
+
+-- Drag System
+local dragging = false
+local dragStart, startPos
+
+mainFrame.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = true
+		dragStart = input.Position
+		startPos = mainFrame.Position
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
+	end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
+		local delta = input.Position - dragStart
+		mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+			startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	end
+end)
+
+-- Events
+closeBtn.MouseButton1Click:Connect(function()
+	TweenService:Create(mainFrame, TweenInfo.new(0.4), {BackgroundTransparency = 1}):Play()
+	task.wait(0.4)
+	keyGui:Destroy()
+	game.StarterGui:SetCore("SendNotification", {
+		Title = "Key System",
+		Text = "❌ ยกเลิกแล้ว",
+		Duration = 3
+	})
+end)
+
+submitBtn.MouseButton1Click:Connect(function()
+	local keyInput = keyBox.Text
+	local isValid = false
+
+	local success, data = pcall(function()
+		return loadstring(game:HttpGet(keysURL))()
+	end)
+
+	if success and data[keyInput] == true then
+		TweenService:Create(mainFrame, TweenInfo.new(0.5), {BackgroundTransparency = 1}):Play()
+		task.wait(0.5)
+		keyGui:Destroy()
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Key System",
+			Text = "✅ Key ถูกต้อง!",
+			Duration = 3
+		})
+		successSound:Play()
+		loadstring(game:HttpGet(scriptURL, true))()
+	else
+		keyBox.Text = ""
+		keyBox.PlaceholderText = "❌ Key ผิด!"
+		errorSound:Play()
+	end
+end)
+
+getKeyBtn.MouseButton1Click:Connect(function()
+	setclipboard(keySiteURL)
+	game.StarterGui:SetCore("SendNotification", {
+		Title = "Get Key",
+		Text = "📋 ลิงก์คัดลอกแล้ว!",
+		Duration = 3
+	})
+end)
+
+discordBtn.MouseButton1Click:Connect(function()
+	setclipboard(discordInvite)
+	game.StarterGui:SetCore("SendNotification", {
+		Title = "Discord",
+		Text = "📋 Invite คัดลอกแล้ว!",
+		Duration = 3
+	})
+end)
 
