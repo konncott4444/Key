@@ -8,8 +8,8 @@ local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
 -- Config
-local keysURL = "----"  ---ใส่คีย
-local scriptURL = "----" ---สคิป
+local keysURL = "https://raw.githubusercontent.com/konncott4444/keyst/refs/heads/main/Keyshoot01"  
+local scriptURL = "https://raw.githubusercontent.com/konncott4444/Full/refs/heads/main/Fullshoot" 
 local keySiteURL = "https://discord.gg/eNP777eBSY"
 local discordInvite = "https://discord.gg/eNP777eBSY"
 
